@@ -26,7 +26,7 @@ cd ~/tensorpro_driver/src
 1. 下载代码
 
 ```bash
-git clone https://github.com/TanwayLab/tensorpro_view.git
+git clone https://github.com/TanwayRD/tensorpro_view.git
 ```
 
 输入用户名密码，下载成功后，～/tensorpro_driver/src文件夹下就会出现程序包。此步骤也可直接在github的项目下直接下载程序的zip压缩包，然后解压到/tensorpro_driver/src文件夹下。
