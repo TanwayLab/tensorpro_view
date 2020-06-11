@@ -60,7 +60,7 @@ roslaunch tensorpro_view Tensorpro.launch
 # IP修改工具使用
 
 ```bash
-roslaunch tensorpro_view tensorpro_interfaces
+rosrun tensorpro_view tensorpro_interfaces
 ```
 
 弹出用户交互界面如下,
