@@ -63,7 +63,7 @@ public:
   bool timestamp_print_switch = false;
   bool needPublishCloud = true;
 
-  char buf[1500];
+  u_char buf[1500];
   
   UDPNetwork UDP_;
 
