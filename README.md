@@ -1,5 +1,5 @@
 # tensorpro_view
-TensorPro_PC_v1.1.5_2020601是探维科技TensorPro系列产品的上位机软件，在Ubuntu18.04环境下开发测试通过。
+TensorPro_PC_v1.1.6_2020622是探维科技TensorPro系列产品的上位机软件，在Ubuntu18.04环境下开发测试通过。
 
 软件需在ROS环境下使用，ROS安装参见[安装教程](http://wiki.ros.org/ROS/Installation "")。
 
@@ -107,3 +107,12 @@ roslaunch tensorpro_view tensorpro_interfaces
 - 使用本软件的验证功能或Wireshark等网络调试助手，确认激光雷达IP信息修改生效。
 
 ![](./resource/pic/SetIP.png "")
+
+## 历史软件版本描述
+
+| 版本号             | 时间          | 描述     | 
+| ---------------------| ----------------- | ---------- |
+| tensorpro_view v1.1.5 | 2020年6月1日 | 解析UDP数据包并发布为PointCloud2数据格式 | 
+| tensorpro_view v1.1.6 | 2020年6月22日 | 修改buf数据类型为u_char | 
+
+
