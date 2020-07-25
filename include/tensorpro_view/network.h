@@ -27,7 +27,7 @@ public:
   socklen_t sockfd, ret, addrlen;
   struct sockaddr_in saddr,caddr;
 
-  char buf_[1500];
+  u_char buf_[1500];
 
   std::string host;
   int port;
@@ -44,7 +44,7 @@ public:
   bool SourceValid();
 
   // @brief Get the UDP data.
-  int recvUDP(char* buf);
+  int recvUDP(u_char* buf);
 
  };
 
