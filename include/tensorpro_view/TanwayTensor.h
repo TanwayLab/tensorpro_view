@@ -60,6 +60,10 @@ public:
 
   double StartAngle = 30;
   double EndAngle = 150;
+  double min_range = 0;
+  double max_range = 200;
+  int min_channel = 1;
+  int max_channel = 16;
   bool timestamp_print_switch = false;
   bool needPublishCloud = true;
 
@@ -99,9 +103,10 @@ public:
   *  @param x.
   *  @param y
   *  @param z
-  *  @param pulsewidth
+  *  @param ring
+  *  @param intensity pulse intensity  
   */
-  PointT getBasicPoint(double x, double y, double z, float pulsewidth);
+  PointT getBasicPoint(double x, double y, double z, int ring, float intensity);
 
   /** 
   *  @brief Parse the UDP packet and calculate the coordinate values.

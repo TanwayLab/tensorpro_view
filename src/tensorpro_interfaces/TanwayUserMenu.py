@@ -230,6 +230,6 @@ class MyWindow(QMainWindow):
             return -1
         time.sleep(1)
         client_socket.close()
-        self.output_msg(self.OperateOut,"操作完成!\n")
+        self.output_msg(self.OperateOut,"操作完成..请重启雷达，验证是否成功修改网络参数.\n")
         self.changeIPButton_status()
 

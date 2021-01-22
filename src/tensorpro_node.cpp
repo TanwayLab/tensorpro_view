@@ -3,7 +3,7 @@
  *  License:　BSD 3-Clause License
  *
  *  Created on: 16-07-2019
- *  Edited on: 31-05-2020
+ *  Edited on: 22-01-2021
  *  Author: Elodie Shan
  *  Editor: LF Shen
 
@@ -14,8 +14,6 @@
 #include <ros/console.h>
 #include "tensorpro_view/TanwayTensor.h"
 
-
-
 int main(int argc, char** argv) {
   ros::init(argc, argv, "tensorproview"); 
   ros::NodeHandle nh;
@@ -25,9 +23,8 @@ int main(int argc, char** argv) {
 
 
   ROS_INFO( "tensorpro viewer for ROS" );
-  ROS_INFO( "Version 1.1.6" );
-  ROS_INFO( "Update Date: 2020/06/20\n" );
-
+  ROS_INFO( "Version 1.1.7" );
+  ROS_INFO( "Update Date: 2021/01/22\n" );
   ROS_INFO( "View in rviz;");
   ROS_INFO( "topic= tensorpro_cloud and fixed frame= TanwayTP");
 
