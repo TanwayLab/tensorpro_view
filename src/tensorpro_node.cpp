@@ -14,8 +14,6 @@
 #include <ros/console.h>
 #include "tensorpro_view/TanwayTensor.h"
 
-
-
 int main(int argc, char** argv) {
   ros::init(argc, argv, "tensorproview"); 
   ros::NodeHandle nh;

@@ -1,4 +1,5 @@
 # tensorpro_view
+
 TensorPro_PC_v1.1.7_20210122是探维科技TensorPro系列产品的上位机软件，在Ubuntu18.04环境下开发测试通过。
 
 软件需在ROS环境下使用，ROS安装参见[安装教程](http://wiki.ros.org/ROS/Installation "")。
@@ -16,14 +17,14 @@ TensorPro_PC_v1.1.7_20210122是探维科技TensorPro系列产品的上位机软�
 
 1. 打开终端（快捷键：ctrl+alt+T）
 
-1. 创建ROS工作空间
+2. 创建ROS工作空间
 
 ```bash
 mkdir -p ~/tensorpro_driver/src
 cd ~/tensorpro_driver/src
 ```
 
-1. 下载代码
+3. 下载代码
 
 ```bash
 git clone https://github.com/TanwayLab/tensorpro_view.git
@@ -31,13 +32,13 @@ git clone https://github.com/TanwayLab/tensorpro_view.git
 
 输入用户名密码，下载成功后，～/tensorpro_driver/src文件夹下就会出现程序包。此步骤也可直接在github的项目下直接下载程序的zip压缩包，然后解压到/tensorpro_driver/src文件夹下。
 
-1. 编译程序
+4. 编译程序
 
 ```bash
 cd ~/tensorpro_driver && catkin_make
 ```
 
-1. 设置环境变量
+5. 设置环境变量
 
 ```bash
 echo "source ~/tensorpro_driver/devel/setup.bash" >> ~/.bashrc
@@ -46,9 +47,9 @@ source ~/.bashrc
 
 # 点云显示软件使用
 
-1. 修改电脑IP为与雷达通信的IP，默认为"192.168.111.204"
+1. 开启雷达并连接电脑，修改电脑IP为与雷达通信的IP，默认为"192.168.111.204"
 
-1. 正常查看点云
+2. 正常查看点云
 
 ```bash
 roslaunch tensorpro_view Tensorpro.launch
@@ -120,4 +121,5 @@ rosrun tensorpro_view tensorpro_interfaces
 | ---------------------| ----------------- | ---------- |
 | tensorpro_view v1.1.5 | 2020年6月1日 | 解析UDP数据包并发布为PointCloud2数据格式 | 
 | tensorpro_view v1.1.6 | 2020年6月22日 | 修改buf数据类型为u_char | 
-| tensorpro_view v1.1.7 | 2021年1月22日 | 增加距离/通道筛选功能| 
+| tensorpro_view v1.1.7 | 2021年1月22日 | 增加距离/通道筛选功能 | 
+
