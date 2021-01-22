@@ -85,7 +85,7 @@ bool UDPNetwork::SourceValid()
   return true;
 }
 
-int UDPNetwork::recvUDP(char* buf)
+int UDPNetwork::recvUDP(u_char* buf)
 {
   bzero(buf,sizeof(buf));
   addrlen = sizeof(caddr);

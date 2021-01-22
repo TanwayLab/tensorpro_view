@@ -52,6 +52,12 @@ void TanwayTensor::getParam(ros::NodeHandle nh_private)
   nh_private.param<int>("port", port, 5600);
   nh_private.param<int>("LiDARport", LiDARport, 5051);
 
+  nh_private.param<double>("StartAngle", StartAngle, 30);
+  nh_private.param<double>("EndAngle", EndAngle, 150);
+  nh_private.param<double>("min_range", min_range, 0);
+  nh_private.param<double>("max_range", max_range, 200);
+  nh_private.param<int>("min_channel", min_channel, 1);
+  nh_private.param<int>("max_channel", max_channel, 16);
   nh_private.param<bool>("timestamp_print_switch", timestamp_print_switch, false);
 }
 
@@ -61,14 +67,15 @@ float TanwayTensor::getHorizontalAngle(float HextoAngle)
   return horizontalAngle;
 }
 
-PointT TanwayTensor::getBasicPoint(double x, double y, double z, float pulsewidth)
+PointT TanwayTensor::getBasicPoint(double x, double y, double z, int ring, float intensity)
 {
   PointT basic_point;
 
   basic_point.x = x;
   basic_point.y = y;
   basic_point.z = z;
-  basic_point.pulsewidth = pulsewidth;
+  basic_point.ring = ring;
+  basic_point.intensity = intensity;
   return basic_point;
 }
 
@@ -89,51 +96,28 @@ bool TanwayTensor::processXYZ(float horizontalAngle, int offset)
     float L = hexToInt*500*c/10.f/16384.f/2;
     ROS_DEBUG_STREAM("seq:"<< seq <<" hA:"<< horizontalAngle <<" L:" <<L); 
 
-    if (L > 200) //大于200m舍弃
+    if (L > max_range || L < min_range || (seq+1) < min_channel || (seq+1) > max_channel) 
     { 
       seq++;
       continue;
     }
 
     //Calculate the coordinate values
-    float pulsewidth = TwoHextoInt(buf[offset+seq*4+2], buf[offset+seq*4+3]);
-    pulsewidth = pulsewidth*500*c/10.f/16384.f/2;
+    float pulse_intensity = TwoHextoInt(buf[offset+seq*4+2], buf[offset+seq*4+3]);
+    pulse_intensity = pulse_intensity*500*c/10.f/16384.f/2;
 
     float x = L * cos_vA_RA * cos_hA_RA;
     float y = L * cos_vA_RA * sin_hA_RA;
     float z = L * sin(vA * RA);
-    point_cloud_ptr->points.push_back(getBasicPoint(x,y,z,pulsewidth));
+    point_cloud_ptr->points.push_back(getBasicPoint(x,y,z,(seq+1),pulse_intensity));
 
     seq++;
   }
   return true;
 }
 
-bool TanwayTensor::fillCloudAttr()
+bool TanwayTensor::printTimeStamps(int offset)
 {
-  point_cloud_ptr->width = (int) point_cloud_ptr->points.size(); //Number of points in one frame
-  point_cloud_ptr->height = 1; // Whether the point cloud is orderly, 1 is disordered
-  point_cloud_ptr->header.frame_id = frame_id; //Point cloud coordinate system name
-  ROS_DEBUG( "Publish   num: [%d]",(int) point_cloud_ptr->points.size());
-  return true;
-}
-
-bool TanwayTensor::publishCloud()
-{
-  fillCloudAttr();
-  
-  pcl::toROSMsg(*point_cloud_ptr, ros_cloud); //convert between PCL and ROS datatypes
-  ros_cloud.header.stamp = ros::Time::now(); //Get ROS system time
-  pubCloud.publish(ros_cloud); //Publish cloud
-
-  PointCloudT cloud;
-  point_cloud_ptr = cloud.makeShared();
-
-  return true;
-}
-
-
-bool TanwayTensor::printTimeStamps(int offset){
   cout << "本包尾列GPS时间戳: ";
   cout.fill('0');
   cout.width(2);
@@ -154,7 +138,29 @@ bool TanwayTensor::printTimeStamps(int offset){
   return true; 
 }
 
-bool TanwayTensor::getUDP(){
+bool TanwayTensor::fillCloudAttr()
+{
+  point_cloud_ptr->width = (int) point_cloud_ptr->points.size(); //Number of points in one frame
+  point_cloud_ptr->height = 1; // Whether the point cloud is orderly, 1 is disordered
+  point_cloud_ptr->header.frame_id = frame_id; //Point cloud coordinate system name
+  ROS_DEBUG( "Publish   num: [%d]",(int) point_cloud_ptr->points.size());
+  return true;
+}
+
+bool TanwayTensor::publishCloud()
+{
+  fillCloudAttr();
+  pcl::toROSMsg(*point_cloud_ptr, ros_cloud); //convert between PCL and ROS datatypes
+  ros_cloud.header.stamp = ros::Time::now(); //Get ROS system time
+  pubCloud.publish(ros_cloud); //Publish cloud
+
+  PointCloudT cloud;
+  point_cloud_ptr = cloud.makeShared();
+
+  return true;
+}
+bool TanwayTensor::getUDP()
+{
   if (UDP_.recvUDP(buf) < 0) //Recieve UDP packets
     return false;
   
@@ -162,8 +168,8 @@ bool TanwayTensor::getUDP(){
   return status;
 }
 
-
-bool TanwayTensor::getPoints(){
+bool TanwayTensor::getPoints()
+{
   int blocks_num = 0;
 
   while (blocks_num < 20) 
